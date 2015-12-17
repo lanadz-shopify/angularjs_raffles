@@ -1,8 +1,10 @@
 angularApp = angular.module('app', ['ngResource'])
 
+angularApp.factory 'Entry', [ '$resource', ($resource) ->
+  $resource('/entries/:id', {id: '@id'}, {update: {method: 'PUT'}})
+]
 
-angularApp.controller('RaffleCtrl', ['$scope', '$resource', ($scope, $resource) ->
-  Entry = $resource('/entries/:id', {id: '@id'}, {update: {method: 'PUT'}})
+angularApp.controller('RaffleCtrl', ['$scope', 'Entry', ($scope, Entry) ->
   $scope.entries = Entry.query()
 
   $scope.addEntry = (newEntry) ->
